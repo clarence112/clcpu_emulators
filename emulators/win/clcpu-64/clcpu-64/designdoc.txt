@@ -1,0 +1,94 @@
+Each cpu core stores a list of threads in ram, each thread getting it's own copy of registers.
+The cpu cycles through each thread, by default giving each one 100 instruction cycles before pausing it and moving to the next.
+The first few bytes of ram in each thead are configuration data, usually write-protected. The reset vector is 0x10 to allow for this.
+
+The system is little-endian.
+
+Floating-point numbers are 9 bytes long. The first 64 bits are the value. The last 8 bits are where to place the decimal point.
+
+
+
+
+HALT									- Stop the thread, killing it
+										-
+ADD										- Set the ALU to addition mode
+SUBTRACT								- Set the ALU to subtraction mode
+MULTIPLY								- Set the ALU to multiplication mode
+DIVIDE									- Set the ALU to division mode
+MOD										- Set the ALU to modulus mode
+BITWISE AND								- Set the ALU to and mode
+BITWISE NAND							- Set the ALU to nand mode
+BITWISE OR								- Set the ALU to or mode
+BITWISE NOR								- Set the ALU to nor mode
+BITWISE XOR								- Set the ALU to xor mode
+BITWISE XNOR							- Set the ALU to xnor mode
+BITSHIFT A LEFT							- Set the ALU to bitshift mode (left)
+BITSHIFT A RIGHT						- Set the ALU to bitshift mode (right)
+										- 
+JUMP									- Set the program counter
+JUMP IF EQUAL							- Set the program counter if a == b
+JUMP IF LESS THAN						- Set the program counter if a < b
+JUMP IF GREATER THAN					- Set the program counter if a > b
+JUMP IF STATUS EQUALS					- Set the program counter if a == STATUS_REGISTER
+										-
+DEFINE PUBLIC FUNCTION					- Set the location of a function other threads are able to call 
+JUMP TO EXTERNAL FUNCTON				- Call a funcion from another thread
+JUMP AND PUSH TO STACK					- Call a local function
+SET STATUS								- Set the STATUS_REGISTER
+SET THREAD DMA POSITION					- Designate a memory block other threads can read/write to
+SET THREAD DMA SIZE						- Set the size of the block other threads can read/write to
+OUTPUT RANGE TO CALLER DMA				- Write to the memory block of the calling thread
+INPUT RANGE FROM CALLER DMA				- Read from the memory block of the calling thread
+RETURN FROM FUNCTION (AND POP IF LOCAL) - Mark the end of a local or public function, jumping if local
+PAUSE									- Put this thread to sleep
+POKE									- Wake up another thread
+YEILD									- End an execution cycle early
+										-
+PUSH 64									- Push a 64-bit number to the stack
+POP 64									- Pop a 64-bit number from the stack
+										-
+MOVE 8									- Copy a 8-bit number from one location to another
+MOVE 16									- Copy a 16-bit number from one location to another, grid alligned
+MOVE 32									- Copy a 32-bit number from one location to another, grid alligned
+MOVE 64									- Copy a 64-bit number from one location to another, grid alligned
+MOVE RANGE								- Copy a range of bytes from one location to another, not grid alligned
+										-
+SET A 8									- Copy a 8-bit number to the A register
+SET A 16								- Copy a 16-bit number to the A register
+SET A 32								- Copy a 32-bit number to the A register
+SET A 64								- Copy a 64-bit number to the A register
+SET B 8									- Copy a 8-bit number to the B register
+SET B 16								- Copy a 16-bit number to the B register
+SET B 32								- Copy a 32-bit number to the B register
+SET B 64								- Copy a 64-bit number to the B register
+READ A 8								- Copy a 8-bit number from the A register
+READ A 16								- Copy a 16-bit number from the A register
+READ A 32								- Copy a 32-bit number from the A register
+READ A 64								- Copy a 64-bit number from the A register
+READ B 8								- Copy a 8-bit number from the B register
+READ B 16								- Copy a 16-bit number from the B register
+READ B 32								- Copy a 32-bit number from the B register
+READ B 64								- Copy a 64-bit number from the B register
+READ C 8								- Copy the 8-bit output from the ALU
+READ C 16								- Copy the 16-bit output from the ALU
+READ C 32								- Copy the 32-bit output from the ALU
+READ C 64								- Copy the 36-bit output from the ALU
+										-
+FLOATING POINT ADD						- Set the ALU to floating-point addition mode
+FLOATING POINT SUBTRACT					- Set the ALU to floating-point subtraction mode
+FLOATING POINT MULTIPLY					- Set the ALU to floating-point multiplication mode
+FLOATING POINT DIVIDE					- Set the ALU to floating-point division mode
+FLOATING POINT MOD						- Set the ALU to floating-point modulus mode
+										-
+MOVE FLOATING POINT						- Copy a floating-point number from one location to another
+										-
+SET A FLOATING POINT					- Copy a floating-point number to the A register
+SET B FLOATING POINT					- Copy a floating-point number to the B register
+READ A FLOATING POINT					- Copy a floating-point number from the A register
+READ B FLOATING POINT					- Copy a floating-point number from the B register
+READ C FLOATING POINT					- Copy a floating-point number from the ALU output
+										-
+OUTPUT RANGE TO DEVICE					- Copy a range of bytes to a device
+READ RANGE FROM DEVICE					- Copy a range of bytes from a device
+SET DEVICE DMA POSITION					- Designate a memory block a device can read/write to
+SET DEVICE DMA SIZE						- Set the size of the block a device can read/write to
