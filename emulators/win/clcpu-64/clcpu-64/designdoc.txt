@@ -5,9 +5,54 @@ The first few bytes of ram in each thead are configuration data, usually write-p
 The system is little-endian.
 
 Floating-point numbers are 9 bytes long. The first 64 bits are the value. The last 8 bits are where to place the decimal point.
+bitshift to truncate leading zeros <<
+bitshift to allign leftmost decimal to rightmost >>
+preform operation
+bitshift to truncate trailing zeros >>
 
+                                                             3
+                                                             2 8 1
+                                                             - - -
+                                                             b b b
+                                                             i i i
+                                                             t t t
+                                                              
+                                                             o o o
+                                                             v v v
+                                                             e e e
+                                                             r r r
+                                                             f f f
+                                                             l l l
+                                                             o o o
+                                                             w w w
+                                                             | | |
+0b0000000000000000000000000000000000000000000000000000000000000000
+                                                            | | |
+                                                            6 1 4
+                                                            4 6 -
+                                                            - - b
+                                                            b b i
+                                                            i i t
+                                                            t t
+                                                                o
+                                                            o o v
+                                                            v v e
+                                                            e e r
+                                                            r r f
+                                                            f f l
+                                                            l l o
+                                                            o o w
+                                                            w w
 
+Emulated system device IDs: (Don't assume the same on """real""" hardware)
+0 - Motherboard
+1 - Bitmap VGA display 0
+2 - PS/2 Keyboard 0
+3 - PS/2 Mouse 0
+4 - PC Speaker 0
+vvv Other devices may change based on emulator settings vvv
 
+vvv Instruction set vvv
 
 HALT									- Stop the thread, killing it
 										-
@@ -72,7 +117,11 @@ READ B 64								- Copy a 64-bit number from the B register
 READ C 8								- Copy the 8-bit output from the ALU
 READ C 16								- Copy the 16-bit output from the ALU
 READ C 32								- Copy the 32-bit output from the ALU
-READ C 64								- Copy the 36-bit output from the ALU
+READ c 64								- Copy the 64-bit output from the ALU
+READ D 8								- Copy the 8-bit output from the STATUS_REGISTER
+READ D 16								- Copy the 16-bit output from the STATUS_REGISTER
+READ D 32								- Copy the 32-bit output from the STATUS_REGISTER
+READ D 64								- Copy the 64-bit output from the STATUS_REGISTER
 										-
 FLOATING POINT ADD						- Set the ALU to floating-point addition mode
 FLOATING POINT SUBTRACT					- Set the ALU to floating-point subtraction mode
